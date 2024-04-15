@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.ItemMapper">
+
+    <resultMap id="itemResultMap" type="com.ohgiraffers.ItemDTO">
+        <id property="id" column="ITEM_ID"/>
+        <result property="name" column="ITEM_NAME"/>
+        <result property="price" column="ITEM_PRICE"/>
+        <result property="amount" column="ITEM_AMOUNT"/>
+        <result property="date" column="ITEM_DATE"/>
+    </resultMap>
+
+    <select id="selectAllItem" resultMap="itemResultMap">
+        SELECT
+            ITEM_ID
+            , ITEM_NAME
+            , ITEM_PRICE
+            , ITEM_AMOUNT
+            , ITEM_DATE
+        FROM ITEM
+        ORDER BY ITEM_ID
+    </select>
+
+    <select id="selelctItemById" parameterType="_int" resultMap="itemResultMap">
+        SELECT
+            ITEM_ID
+             , ITEM_NAME
+             , ITEM_PRICE
+             , ITEM_AMOUNT
+             , ITEM_DATE
+        FROM ITEM
+            WHERE ITEM_ID = ?
+--         AND ITEM_ID = #{ id }
+    </select>
+
+    <insert id="insertItem" parameterType="com.ohgiraffers.ItemDTO">
+        INSERT INTO ITEM (
+                           ITEM_ID
+                         , ITEM_NAME
+                         , ITEM_PRICE
+                         , ITEM_AMOUNT
+                         , ITEM_DATE
+        )
+        VALUES
+            (
+                  #{ id }
+                , #{ name }
+                , #{ price }
+                , #{ amount }
+                , #{ date }
+            )
+    </insert>
+    <update id="updateItem" parameterType="com.ohgiraffers.ItemDTO">
+        UPDATE ITEM
+        SET ITEM_ID = #{ id }
+          , ITEM_NAME = #{ name }
+          , ITEM_PRICE = #{ price }
+          , ITEM_AMOUNT = #{ amount }
+          , ITEM_DATE = #{ date }
+        WHERE ITEM_ID = #{ id }
+    </update>
+
+    <delete id="deleteItem" parameterType="_int">
+        DELETE
+        FROM ITEM
+        WHERE ITEM_ID = #{ id }
+    </delete>
+</mapper>
